@@ -8,6 +8,7 @@ on:
     branches:
       - main
       - docker-test
+      - fastqc-g1
     # ⬇️ THE MAGIC TRICK: This action ONLY triggers if files in this folder change!
     paths:
       - 'containers/fastqc_g1/**' 
