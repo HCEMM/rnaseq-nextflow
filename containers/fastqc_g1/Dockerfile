@@ -17,8 +17,14 @@ RUN apk add --no-cache \
     fontconfig \
     ttf-dejavu
 
+
 # 4. Install MultiQC
 # Hint: Use the python package manager to install 'multiqc'
+RUN apk add --no-cache \
+    build-base \
+    python3-dev \
+    linux-headers
+
 RUN pip install --break-system-packages multiqc
 
 # 4. Download, extract, and configure FastQC.
