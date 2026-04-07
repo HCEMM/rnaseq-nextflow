@@ -33,6 +33,7 @@ RUN wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v${FAS
 # Let's use a folder called /data
 ______ /data
 
+
 # 6. Set the default command that runs when the container starts.
 # We want it to run the fastqc help menu.
 ______ ["fastqc", "--help"]
