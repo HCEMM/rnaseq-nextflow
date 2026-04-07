@@ -21,11 +21,13 @@ RUN apk add --no-cache \
 # 4. Install MultiQC
 # Hint: Use the python package manager to install 'multiqc'
 RUN apk add --no-cache \
+	python3 \
+	py3-pip \
     build-base \
     python3-dev \
     linux-headers
 
-RUN python3 -m pip install --break-system-packages multiqc
+RUN pip install --break-system-packages multiqc
 
 # 4. Download, extract, and configure FastQC.
 # Fill in the missing Linux commands to make this chain work!
