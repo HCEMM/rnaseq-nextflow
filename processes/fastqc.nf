@@ -2,8 +2,8 @@ process FASTQC {
     tag "FastQC on $sample_id"
     publishDir "${params.outdir}/fastqc", mode: 'copy'
     
-    container "${params.container_dir}/fastqc.sif"
-
+	container "docker://hcemm/bioinfo-workshop:fastqc"  // Use the Docker image built by Group 1
+	
     input:
     tuple val(sample_id), path(reads)
 
