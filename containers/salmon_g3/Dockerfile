@@ -11,6 +11,9 @@ RUN apt-get update && \
     apt-get install -y wget tar && \
     rm -rf /var/lib/apt/lists/*
 
+
+ENV LANG=en_US.UTF-8 \
+    LC_ALL=en_US.UTF-8	
 # 4. Download and extract the pre-compiled Salmon binary
 # Hint: We are dealing with a .tar.gz (tarball) archive, not a .zip! 
 # We need to extract it, then delete the original archive to save space.
