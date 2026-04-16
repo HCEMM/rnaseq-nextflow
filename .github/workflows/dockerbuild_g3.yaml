@@ -1,0 +1,32 @@
+name: Salmon Group 3
+
+on:
+  push:
+    branches:
+      - main
+      - docker-test
+      - salmon-g3
+    # ⬇️ THE MAGIC TRICK: This action ONLY triggers if files in this folder change!
+    paths:
+      - 'containers/salmon_g3/**' 
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          # ⬇️ Tells Docker to look inside Group 3's folder for the Dockerfile
+          context: ./containers/salmon_g3
+          push: true
+          tags: hcemm/bioinfo-workshop:salmon #one repo with different tags (or seperate repos...)

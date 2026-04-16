@@ -1,0 +1,32 @@
+name: Limma Group 4
+
+on:
+  push:
+    branches:
+      - main
+      - docker-test
+      - limma-g4
+    # ⬇️ THE MAGIC TRICK: This action ONLY triggers if files in this folder change!
+    paths:
+      - 'containers/limma_g4/**' 
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          # ⬇️ Tells Docker to look inside Group 4's folder for the Dockerfile
+          context: ./containers/limma_g4
+          push: true
+          tags: hcemm/bioinfo-workshop:limma #one repo with different tags (or seperate repos...)
