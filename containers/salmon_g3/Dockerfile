@@ -20,7 +20,7 @@ RUN wget https://github.com/COMBINE-lab/salmon/releases/download/v${SALMON_VERSI
 
 # 5. Add Salmon to the system PATH
 # Instead of moving the files, we can just tell Linux where to look for them!
-ENV PATH="/salmon-${SALMON_VERSION}_linux_x86_64/bin:${PATH}"
+ENV PATH="/salmon-linux-x86_64/bin:${PATH}"
 
 # 6. Set the default working directory
 WORKDIR /data
