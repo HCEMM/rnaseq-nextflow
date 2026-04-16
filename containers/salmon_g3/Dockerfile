@@ -2,7 +2,7 @@
 FROM debian:bookworm-slim
 
 # 2. Set the version variable for Salmon
-ENV SALMON_VERSION=1.10.3
+ENV SALMON_VERSION=1.11.4
 
 # 3. Install system dependencies
 # Hint: Debian uses 'apt-get' instead of 'apk'. 
@@ -14,9 +14,9 @@ RUN apt-get update && \
 # 4. Download and extract the pre-compiled Salmon binary
 # Hint: We are dealing with a .tar.gz (tarball) archive, not a .zip! 
 # We need to extract it, then delete the original archive to save space.
-RUN wget https://github.com/COMBINE-lab/salmon/releases/download/v${SALMON_VERSION}/salmon-${SALMON_VERSION}_linux_x86_64.tar.gz && \
-    tar -xzf salmon-${SALMON_VERSION}_linux_x86_64.tar.gz && \
-    rm salmon-${SALMON_VERSION}_linux_x86_64.tar.gz
+RUN wget https://github.com/COMBINE-lab/salmon/releases/download/v${SALMON_VERSION}/salmon-linux-x86_64.tar.gz && \
+    tar -xzf salmon-linux-x86_64.tar.gz && \
+    rm salmon-linux-x86_64.tar.gz
 
 # 5. Add Salmon to the system PATH
 # Instead of moving the files, we can just tell Linux where to look for them!
