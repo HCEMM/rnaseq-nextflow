@@ -1,5 +1,5 @@
 # 1. Define the base image. Let's switch to a lightweight Debian image!
-FROM debian:bookworm-slim
+FROM ubuntu:22.04
 
 # 2. Set the version variable for Salmon
 ENV SALMON_VERSION=1.11.4
