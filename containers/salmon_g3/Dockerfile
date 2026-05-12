@@ -8,7 +8,9 @@ ENV SALMON_VERSION=1.11.4
 # Hint: Debian uses 'apt-get' instead of 'apk'. 
 # You always need to run an 'update' before you 'install'!
 RUN apt-get update && \
-    apt-get install -y wget tar && \
+    apt-get install -y wget tar locales && \
+    locale-gen en_US.UTF-8 && \
+    update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 && \
     rm -rf /var/lib/apt/lists/*
 
 
