@@ -1,8 +1,8 @@
 process FASTQC {
     tag "FastQC on $sample_id"
-    publishDir "${params.outdir}/fastqc", mode: 'copy'
+    publishDir "${params.outdir}/qc", mode: 'copy'
     
-    container "${params.container_dir}/fastqc.sif"
+    container "hcemm/bioinfo-workshop:fastqc"
 
     input:
     tuple val(sample_id), path(reads)
