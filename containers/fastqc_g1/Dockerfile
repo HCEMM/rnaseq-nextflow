@@ -10,6 +10,7 @@ ENV FASTQC_VERSION=0.12.1
 # Hint: In Alpine Linux, the package manager is 'apk', and you want to 'add' packages 
 # without caching them to save space.
 RUN apk add --no-cache \
+    bash \
     openjdk17-jre \
     perl \
     wget \

@@ -9,6 +9,7 @@ process TRIMMOMATIC {
 
     output:
     tuple val(sample_id), path("*_trimmed.fastq.gz"), emit: trimmed_reads
+    path "*_trimmomatic.log", emit: log
 
     script:
     """

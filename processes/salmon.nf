@@ -24,14 +24,14 @@ process SALMON_QUANT {
 
     input:
     tuple val(sample_id), path(trimmed_reads)
-    path transcriptome
+    path index
 
     output:
     path "${sample_id}_quant", emit: quant_dirs
 
     script:
     """
-    salmon quant -i transcripts_index -l A \
+    salmon quant -i ${index} -l A \
         -1 ${trimmed_reads[0]} \
         -2 ${trimmed_reads[1]} \
         -p ${task.cpus} \

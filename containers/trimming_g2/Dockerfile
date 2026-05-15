@@ -8,6 +8,7 @@ ENV TRIMMOMATIC_VERSION=0.39
 # Hint: Trimmomatic is written in Java, so we need the Java Runtime Environment (JRE).
 # We also need tools to download and extract the archive.
 RUN apk add --no-cache \
+    bash \
     openjdk17-jre \
     wget \
     unzip

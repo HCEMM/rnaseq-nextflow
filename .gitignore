@@ -8,3 +8,7 @@
 /work/*
 
 /preprocess
+
+.nextflow.log*
+
+.nextflow/

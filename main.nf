@@ -4,6 +4,7 @@ nextflow.enable.dsl=2
 
 // --- PARAMETERS ---
 params.reads         = "$projectDir/data/SRR10395*_{R1,R2}.fastq.gz"
+// --reads /scratch/jsequeira/sznistvan/data/rnaseq/bioinformatics_hpc/workshop_ready/SRR10395*_{1,2}.fastq.gz
 params.transcriptome = "$projectDir/data/Homo_sapiens.GRCh38.cdna.all.fa"
 //params.adapters      = "$projectDir/data/adapters.fa"       // Added: Required for trimming
 //params.metadata      = "$projectDir/data/samples.txt"       // Added: Required for R (limma)
@@ -18,6 +19,8 @@ include { SALMON_QUANT } from './processes/salmon.nf'
 include { MULTIQC }      from './processes/multiqc.nf'      // Added: MultiQC!
 include { R_ANALYSIS }   from './processes/r_analysis.nf'
 
+//ml apptainer!
+
 // --- WORKFLOW ---
 workflow {
     // 1. Create channels from input data
@@ -27,7 +30,7 @@ workflow {
 
     // 2. Quality Control & Trimming
     FASTQC(read_pairs_ch)
-    TRIMMOMATIC(read_pairs_ch, adapters_ch)
+    TRIMMOMATIC(read_pairs_ch)
 
     // 3. Transcriptome Indexing & Quantification
     SALMON_INDEX(transcriptome_ch)
@@ -35,21 +38,21 @@ workflow {
     // Pass the trimmed reads and the generated index into Salmon Quant
     SALMON_QUANT(TRIMMOMATIC.out.trimmed_reads, SALMON_INDEX.out.index)
     
+    
     // 4. Summarize all Quality Control logs
     // We mix the outputs from FastQC, Trimmomatic, and Salmon into one channel for MultiQC
-    MULTIQC(
-        FASTQC.out.zip.mix(
-            TRIMMOMATIC.out.log,
-            SALMON_QUANT.out.json
-        ).collect()
-    )
+    // MULTIQC(
+    //     FASTQC.out.qc_results.mix(
+    //         TRIMMOMATIC.out.trimmed_reads,
+    //         SALMON_QUANT.out.quant_dirs
+    //     ).collect()
+    // )
 
-    exit 0
-    // 5. Differential Expression in R
-    // Pass the quantified directories, plus the necessary biological metadata
-    R_ANALYSIS(
-        SALMON_QUANT.out.quant_dirs.collect(),
-        metadata_ch,
-        tx2gene_ch
-    )
+    // // 5. Differential Expression in R
+    // // Pass the quantified directories, plus the necessary biological metadata
+    // R_ANALYSIS(
+    //     SALMON_QUANT.out.quant_dirs.collect(),
+    //     metadata_ch,
+    //     tx2gene_ch
+    // )
 }
