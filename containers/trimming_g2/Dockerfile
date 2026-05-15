@@ -19,7 +19,8 @@ RUN wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmoma
     unzip Trimmomatic-${TRIMMOMATIC_VERSION}.zip && \
     rm Trimmomatic-${TRIMMOMATIC_VERSION}.zip && \
     mv Trimmomatic-${TRIMMOMATIC_VERSION}/trimmomatic-${TRIMMOMATIC_VERSION}.jar /usr/local/bin/trimmomatic.jar \
-    mv Trimmomatic-${TRIMMOMATIC_VERSION}/adapters /usr/local/bin/adapters &&
+    mkdir -p /usr/local/bin/adapters && \
+    mv Trimmomatic-${TRIMMOMATIC_VERSION}/adapters/* /usr/local/bin/adapters/ &&
 
 # 5. Set the default working directory
 WORKDIR /data
