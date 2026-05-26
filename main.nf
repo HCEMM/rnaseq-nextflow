@@ -3,12 +3,12 @@
 nextflow.enable.dsl=2
 
 // --- PARAMETERS ---
-params.reads         = "$projectDir/data/SRR10395*_{R1,R2}.fastq.gz"
-// --reads /scratch/jsequeira/sznistvan/data/rnaseq/bioinformatics_hpc/workshop_ready/SRR10395*_{1,2}.fastq.gz
+params.reads         = "/scratch/jsequeira/sznistvan/data/rnaseq/bioinformatics_hpc/workshop_ready/*_workshop_{1,2}.fastq.gz"
+// --reads /scratch/jsequeira/sznistvan/data/rnaseq/bioinformatics_hpc/workshop_ready/*_workshop_{1,2}.fastq.gz
 params.transcriptome = "$projectDir/data/Homo_sapiens.GRCh38.cdna.all.fa"
 //params.adapters      = "$projectDir/data/adapters.fa"       // Added: Required for trimming
-//params.metadata      = "$projectDir/data/samples.txt"       // Added: Required for R (limma)
-params.tx2gene       = "$projectDir/data/tx2gene.csv"       // Added: Required for R (tximport)
+params.metadata      = "$projectDir/data/samples.csv"       // Added: Required for R (limma)
+params.tx2gene       = "$projectDir/data/tx2gene/tx2gene.csv"       // Added: Required for R (tximport)
 params.outdir        = "$projectDir/results"
 
 // --- MODULE IMPORTS ---
@@ -24,9 +24,10 @@ include { R_ANALYSIS }   from './processes/r_analysis.nf'
 // --- WORKFLOW ---
 workflow {
     // 1. Create channels from input data
-    read_pairs_ch    = Channel.fromFilePairs(params.reads, checkIfExists: true)
+    read_pairs_ch    = Channel.fromFilePairs(params.reads, checkIfExists: true).view { "Found sample: ${it[0]}" }   
     transcriptome_ch = file(params.transcriptome, checkIfExists: true)
-    //tx2gene_ch       = file(params.tx2gene, checkIfExists: true)
+    tx2gene_ch       = file(params.tx2gene, checkIfExists: true)
+    metadata_ch      = file(params.metadata, checkIfExists: true)
 
     // 2. Quality Control & Trimming
     FASTQC(read_pairs_ch)
@@ -41,18 +42,17 @@ workflow {
     
     // 4. Summarize all Quality Control logs
     // We mix the outputs from FastQC, Trimmomatic, and Salmon into one channel for MultiQC
-    // MULTIQC(
-    //     FASTQC.out.qc_results.mix(
-    //         TRIMMOMATIC.out.trimmed_reads,
-    //         SALMON_QUANT.out.quant_dirs
-    //     ).collect()
-    // )
+    MULTIQC(
+        FASTQC.out.qc_results.mix(
+            TRIMMOMATIC.out.log,
+            SALMON_QUANT.out.quant_dirs
+        ).collect())
 
-    // // 5. Differential Expression in R
-    // // Pass the quantified directories, plus the necessary biological metadata
-    // R_ANALYSIS(
-    //     SALMON_QUANT.out.quant_dirs.collect(),
-    //     metadata_ch,
-    //     tx2gene_ch
-    // )
+    // 5. Differential Expression in R
+    // Pass the quantified directories, plus the necessary biological metadata
+    R_ANALYSIS(
+        SALMON_QUANT.out.quant_dirs.collect(),
+        tx2gene_ch,
+        metadata_ch
+    )
 }
