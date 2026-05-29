@@ -2,3 +2,13 @@
 
 # except the mardkown files in data folder
 !/data/*.md
+
+/results/*
+
+/work/*
+
+/preprocess
+
+.nextflow.log*
+
+.nextflow/

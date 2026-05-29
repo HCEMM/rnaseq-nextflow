@@ -1,14 +1,14 @@
-name: Trimming Group 2
+name: Salmon Group 3
 
 on:
   push:
     branches:
       - main
       - docker-test
-      - trimming-g2
+      - salmon-g3
     # ⬇️ THE MAGIC TRICK: This action ONLY triggers if files in this folder change!
     paths:
-      - 'containers/trimming_g2/**' 
+      - 'containers/salmon_g3/**' 
 
 jobs:
   build-and-push:
@@ -26,7 +26,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          # ⬇️ Tells Docker to look inside Group 2's folder for the Dockerfile
-          context: ./containers/trimming_g2
+          # ⬇️ Tells Docker to look inside Group 3's folder for the Dockerfile
+          context: ./containers/salmon_g3
           push: true
-          tags: hcemm/bioinfo-workshop:trimming #one repo with different tags (or seperate repos...)
+          tags: hcemm/bioinfo-workshop:salmon #one repo with different tags (or seperate repos...)

@@ -2,21 +2,19 @@ process R_ANALYSIS {
     tag "R Analysis"
     publishDir "${params.outdir}/R_plots", mode: 'copy'
     
-    container "${params.container_dir}/custom_r.sif"
+    container "hcemm/bioinfo-workshop:limma"
 
     input:
     path quant_dirs
+    path tx2gene
+    path metadata
 
     output:
     path "expression_summary.pdf"
+    path "final_results.csv"
 
     script:
     """
-    #!/usr/bin/env Rscript
-    library(ggplot2)
-    
-    pdf("expression_summary.pdf")
-    plot(1:10, main="Modular Workshop Pipeline Complete!")
-    dev.off()
+    Rscript ${projectDir}/scripts/limma_analysis.R --quant_dirs ${quant_dirs.join(',')} --tx2gene ${tx2gene} --metadata ${metadata}
     """
 }

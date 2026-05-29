@@ -1,4 +1,4 @@
-name: Build Group 1
+name: FastQC Group 1
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -7,10 +7,10 @@ on:
   push:
     branches:
       - main
-      - fastqc_g1
-    # ⬇️ THE MAGIC TRICK: This action ONLY triggers if files in this folder change!
+      - docker-test
+      - fastqc-g1
     paths:
-      - 'containers/fastqc/**' 
+      - 'containers/fastqc_g1/**'
 
 jobs:
   build-and-push:
@@ -28,7 +28,6 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          # ⬇️ Tells Docker to look inside Group 1's folder for the Dockerfile
-          context: ./containers/fastqc
+          context: ./containers/fastqc_g1
           push: true
-          tags: hcemm/bioinfo-workshop:fastqc  #one repo with different tags (or seperate repos...)
+          tags: hcemm/bioinfo-workshop:fastqc
