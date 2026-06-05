@@ -20,24 +20,24 @@ jobs:
         with:
           context: .
           file: ./containers/nf_test/Dockerfile
-          tags: upimapi:latest
-          outputs: type=docker,dest=/tmp/upimapi.tar
+          tags: nf_test:latest
+          outputs: type=docker,dest=/tmp/nf_test.tar
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: upimapi
-          path: /tmp/upimapi.tar
+          name: nf_test
+          path: /tmp/nf_test.tar
 
-  txt-file-comma-separated:
+  nf-test-g1:
     runs-on: ubuntu-latest
     needs: build
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: upimapi
+          name: nf_test
           path: /tmp
       - name: Load Docker image
-        run: docker load --input /tmp/upimapi.tar
-      - name: IDs inputted through TXT file (comma-separated)
-        run:
+        run: docker load --input /tmp/nf_test.tar
+      - name: NF-Testing of FASTQC process
+        run: docker run nf_test:latest -c "nf-test init; nf-test test ./tests/fastqc.nf.test" 
