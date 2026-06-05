@@ -1,24 +1,36 @@
 nextflow_process {
 
     name "Test FASTQC process"
+    // Make sure this path correctly points to your process file from THIS test file
     script "../processes/fastqc.nf"
     process "FASTQC"
 
     test("Run FASTQC on paired FASTQ files") {
 
-        when:
-        process {
-            """
-            input[0] = tuple("sample", [file("tests/data/sample_1.fastq"), file("tests/data/sample_2.fastq")])
-            """
+        when {
+            // Mock parameters your process needs
+            params {
+                outdir = "tests/results"
+            }
+            process {
+                """
+                input[0] = tuple("sample", [
+                    file("${projectDir}/tests/data/sample_1.fastq"), 
+                    file("${projectDir}/tests/data/sample_2.fastq")
+                ])
+                """
+            }
         }
 
-        then:
-        assert process.success
-        assert process.out.qc_results.size() == 2
+        then {
+            assert process.success
+            
+            // FastQC creates 1 zip and 1 html per input file (2 inputs = 4 outputs)
+            assert process.out.qc_results.size() == 4
 
-        def outputNames = process.out.qc_results.collect { file(it).name }
-        assert outputNames.any { it.endsWith(".html") }
-        assert outputNames.any { it.endsWith(".zip") }
+            def outputNames = process.out.qc_results.collect { file(it).name }
+            assert outputNames.any { it.endsWith(".html") }
+            assert outputNames.any { it.endsWith(".zip") }
+        }
     }
 }
