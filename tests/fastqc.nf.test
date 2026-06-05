@@ -1,7 +1,6 @@
 nextflow_process {
 
     name "Test FASTQC process"
-<<<<<<< HEAD
     script "../processes/fastqc.nf"
     process "FASTQC"
 
@@ -21,24 +20,5 @@ nextflow_process {
         def outputNames = process.out.qc_results.collect { file(it).name }
         assert outputNames.any { it.endsWith(".html") }
         assert outputNames.any { it.endsWith(".zip") }
-=======
-    script "../modules/fastqc.nf"
-    process "FASTQC"
-
-    test("Run FASTQC on small FASTQ") {
-
-        input:
-        path "tests/data/sample.fastq.gz"
-
-        when:
-        process.run()
-
-        then:
-        assert process.success
-        assert process.out.size() == 2
-
-        assert file(process.out[0]).name.endsWith(".html")
-        assert file(process.out[1]).name.endsWith(".zip")
->>>>>>> 9ad4557e807fb51ea178e537e2429a72be1ed16e
     }
 }
