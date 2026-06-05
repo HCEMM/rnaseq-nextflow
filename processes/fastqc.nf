@@ -14,4 +14,4 @@ process FASTQC {
     """
     fastqc -t ${task.cpus} ${reads[0]} ${reads[1]}
     """
-
+}
