@@ -40,4 +40,4 @@ jobs:
       - name: Load Docker image
         run: docker load --input /tmp/nf_test.tar
       - name: NF-Testing of FASTQC process
-        run: docker run nf_test:latest /bin/bash -c "nf-test init; nf-test test ./tests/fastqc.nf.test" 
+        run: docker run -v $(pwd):/workspace -w /workspace nf_test:latest /bin/bash -c "nf-test init && nf-test test ./tests/fastqc.nf.test"
