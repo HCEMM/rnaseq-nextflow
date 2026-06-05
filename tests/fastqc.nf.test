@@ -25,7 +25,7 @@ nextflow_process {
         then {
             assert process.success
             
-            def fastqcFiles = process.out.qc_results[0]
+            def fastqcFiles = process.out.qc_results.flatten()
             // FastQC creates 1 zip and 1 html per input file (2 inputs = 4 outputs)
             assert fastqcFiles.size() == 4
 
