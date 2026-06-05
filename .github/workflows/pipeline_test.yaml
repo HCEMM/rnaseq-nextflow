@@ -1,0 +1,50 @@
+name: Nextflow Pipeline CI
+
+# Trigger on Pull Requests targeting developer OR main
+on:
+  pull_request:
+    branches:
+      - developer
+      - main
+
+jobs:
+  test-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Nextflow runs on Java, so we set that up first
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # Download and install Nextflow
+      - name: Install Nextflow
+        run: |
+          wget -qO- https://get.nextflow.io | bash
+          sudo mv nextflow /usr/local/bin/
+
+      # -------------------------------------------------------------
+      # PHASE 1: Testing individual groups (PRs to 'developer')
+      # -------------------------------------------------------------
+      - name: Test Individual Process (Developer Branch)
+        if: github.base_ref == 'developer'
+        run: |
+          echo "Checking syntax and running stub tests for the group's PR..."
+          # A good practice here is to use Nextflow's '-stub' feature 
+          # to ensure the process compiles without needing massive datasets.
+          nextflow run main.nf -stub
+
+      # -------------------------------------------------------------
+      # PHASE 2: Testing the whole integrated pipeline (PR to 'main')
+      # -------------------------------------------------------------
+      - name: Full Integration Test (Main Branch)
+        if: github.base_ref == 'main'
+        run: |
+          echo "Running the fully integrated pipeline with test data..."
+          # Here, you run the actual pipeline using a minimal test dataset
+          nextflow run main.nf -profile test

@@ -1,0 +1,24 @@
+nextflow_process {
+
+    name "Test FASTQC process"
+    script "../processes/fastqc.nf"
+    process "FASTQC"
+
+    test("Run FASTQC on paired FASTQ files") {
+
+        when:
+        process {
+            """
+            input[0] = tuple("sample", [file("tests/data/sample_1.fastq"), file("tests/data/sample_2.fastq")])
+            """
+        }
+
+        then:
+        assert process.success
+        assert process.out.qc_results.size() == 2
+
+        def outputNames = process.out.qc_results.collect { file(it).name }
+        assert outputNames.any { it.endsWith(".html") }
+        assert outputNames.any { it.endsWith(".zip") }
+    }
+}
