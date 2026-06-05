@@ -9,9 +9,8 @@ on:
       - main
       - docker-test
       - fastqc-g1
-    # ⬇️ THE MAGIC TRICK: This action ONLY triggers if files in this folder change!
     paths:
-      - 'containers/fastqc_g1/**' 
+      - 'containers/fastqc_g1/**'
 
 jobs:
   build-and-push:
@@ -29,7 +28,6 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          # ⬇️ Tells Docker to look inside Group 1's folder for the Dockerfile
           context: ./containers/fastqc_g1
           push: true
-          tags: hcemm/bioinfo-workshop:fastqc  #one repo with different tags (or seperate repos...)
+          tags: hcemm/bioinfo-workshop:fastqc
