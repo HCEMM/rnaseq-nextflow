@@ -6,7 +6,7 @@ on:
     branches:
       - trimming-g2
       - docker-test
-  paths:
+    paths:
       - 'processes/trimming.nf'
       - 'tests/trimming.nf.test'
 
