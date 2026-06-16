@@ -25,7 +25,7 @@ nextflow_process {
         then {
             assert process.success
             
-            def quantDir = process.out.quant_dirs[0][1]
+            def quantDir = process.out.quant_dirs[0]
 
             // 2. Assert that the directory itself was created
             assert file(quantDir).exists()
