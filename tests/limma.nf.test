@@ -29,8 +29,8 @@ nextflow_process {
         then {
             assert process.success
             
-			def pdfOut = process.out.get(0)
-            def csvOut = process.out.get(1)
+			def pdfOut = process.out.get(0)[0]
+            def csvOut = process.out.get(1)[0]
 
 			assert file(pdfOut).exists()
             assert pdfOut.toString().endsWith("expression_summary.pdf")
