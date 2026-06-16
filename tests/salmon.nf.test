@@ -1,0 +1,38 @@
+nextflow_process {
+
+    name "Test SALMON process"
+    // Make sure this path correctly points to your process file from THIS test file
+    script "../processes/salmon.nf"
+    process "SALMON"
+
+    test("Run SALMON on paired FASTQ files") {
+
+        when {
+            // Mock parameters your process needs
+            params {
+                outdir = "tests/results"
+            }
+            process {
+                """
+                input[0] = tuple("sample", [
+                    file("${projectDir}/tests/data/sample_1.fastq.gz"), 
+                    file("${projectDir}/tests/data/sample_2.fastq.gz")
+                ])
+				input[1] = file("${projectDir}/tests/data/test_salmon_index")
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            
+            def quantDir = process.out.quant_dirs[0][1]
+
+            // 2. Assert that the directory itself was created
+            assert file(quantDir).exists()
+
+            // 3. Assert that the crucial quant.sf file exists inside it
+            assert file("${quantDir}/quant.sf").exists()
+        }
+    }
+}
