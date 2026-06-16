@@ -1,6 +1,6 @@
 nextflow_process {
 
-    name "Test the TRIMMOMATIC process"
+    name "Test TRIMMOMATIC process"
     // Make sure this path correctly points to your process file from THIS test file
     script "../processes/trimming.nf"
     process "TRIMMOMATIC"
