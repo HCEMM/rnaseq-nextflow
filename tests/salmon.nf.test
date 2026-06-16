@@ -18,7 +18,7 @@ nextflow_process {
                     file("${projectDir}/tests/data/sample_1.fastq.gz"), 
                     file("${projectDir}/tests/data/sample_2.fastq.gz")
                 ])
-				input[1] = file("${projectDir}/tests/data/test_salmon_index")
+				input[1] = file("${projectDir}/tests/data/index/test_salmon_index")
                 """
             }
         }
