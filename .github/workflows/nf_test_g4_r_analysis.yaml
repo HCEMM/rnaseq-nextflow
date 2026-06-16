@@ -8,7 +8,7 @@ on:
       - docker-test
     paths:
       - 'processes/r_analysis.nf'
-      - 'tests/r_analysis.nf.test'
+      - 'tests/limma.nf.test'
 
 jobs:
   build:
@@ -45,4 +45,4 @@ jobs:
       - name: Load Docker image
         run: docker load --input /tmp/nf_test.tar
       - name: NF-Testing of R_ANALYSIS process
-        run: docker run --privileged -v ${{ github.workspace }}:/workspace -w /workspace nf_test:latest /bin/bash -c "nf-test test tests/r_analysis.nf.test"
+        run: docker run --privileged -v ${{ github.workspace }}:/workspace -w /workspace nf_test:latest /bin/bash -c "nf-test test tests/limma.nf.test"
