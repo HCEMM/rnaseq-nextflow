@@ -20,12 +20,12 @@ nextflow_process {
                     file("${projectDir}/tests/data/quant/SRR1039512_quant"),
                     file("${projectDir}/tests/data/quant/SRR1039517_quant")
                 ]
-				input[1] = file("${projectDir}/tests/data/quant/tx2gene.tsv")
-				input[2] = file("${projectDir}/tests/data/quant/samples.tsv")
+				input[1] = file("${projectDir}/tests/data/quant/tx2gene.csv")
+				input[2] = file("${projectDir}/tests/data/quant/samples.csv")
                 """
             }
         }
-		
+
         then {
             assert process.success
             
