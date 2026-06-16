@@ -3,7 +3,7 @@ nextflow_process {
     name "Test SALMON process"
     // Make sure this path correctly points to your process file from THIS test file
     script "../processes/salmon.nf"
-    process "SALMON"
+    process "SALMON_QUANT"
 
     test("Run SALMON on paired FASTQ files") {
 
