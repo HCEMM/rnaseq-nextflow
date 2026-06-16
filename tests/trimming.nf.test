@@ -1,0 +1,39 @@
+nextflow_process {
+
+    name "Test the TRIMMOMATIC process"
+    // Make sure this path correctly points to your process file from THIS test file
+    script "../processes/trimming.nf"
+    process "TRIMMOMATIC"
+
+    test("Run TRIMMOMATIC on paired FASTQ files") {
+
+        when {
+            // Mock parameters your process needs
+            params {
+                outdir = "tests/results"
+            }
+            process {
+                """
+                input[0] = tuple("sample", [
+                    file("${projectDir}/tests/data/sample_1.fastq.gz"), 
+                    file("${projectDir}/tests/data/sample_2.fastq.gz")
+                ])
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            
+            def trimmFiles = process.out.qc_results.flatten()
+			def trimmmLog = process.out.log.flatten()
+            // Trimmomatic creates 3 files (2 trimmed; 1 log output)
+            assert trimmFiles.size() == 2
+			assert trimmmLog.size() == 1
+
+            
+            assert trimmFiles.any { it.toString().endsWith(".fastq.gz") }
+            assert trimmmLog.any { it.toString().endsWith(".log") }
+        }
+    }
+}

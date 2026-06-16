@@ -1,10 +1,10 @@
-name: Nextflow Process Test - G1
+name: Nextflow Process Test - G2 TRIMMING
 
 # Trigger on Pull Requests targeting developer OR main
 on:
   push:
     branches:
-      - fastqc-g1
+      - trimming-g2
       - docker-test
 
 jobs:
@@ -28,7 +28,7 @@ jobs:
           name: nf_test
           path: /tmp/nf_test.tar
 
-  nf-test-g1:
+  nf-test-g2:
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -41,5 +41,5 @@ jobs:
           path: /tmp
       - name: Load Docker image
         run: docker load --input /tmp/nf_test.tar
-      - name: NF-Testing of FASTQC process
-        run: docker run --privileged -v ${{ github.workspace }}:/workspace -w /workspace nf_test:latest /bin/bash -c "nf-test test tests/fastqc.nf.test"
+      - name: NF-Testing of TRIMMING process
+        run: docker run --privileged -v ${{ github.workspace }}:/workspace -w /workspace nf_test:latest /bin/bash -c "nf-test test tests/trimming.nf.test"
