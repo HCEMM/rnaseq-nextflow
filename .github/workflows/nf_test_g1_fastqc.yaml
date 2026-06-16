@@ -6,6 +6,9 @@ on:
     branches:
       - fastqc-g1
       - docker-test
+    paths:
+      - 'processes/fastqc.nf'
+      - 'tests/fastqc.nf.test'
 
 jobs:
   build:

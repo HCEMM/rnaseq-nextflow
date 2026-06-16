@@ -26,7 +26,7 @@ RUN wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmoma
 # 5. Set the default working directory
 WORKDIR /data
 
-RUN echo '#!/bin/bash\njava -jar /usr/local/bin/trimmomatic.jar "$@"' > /usr/local/bin/trimmomatic && \
+RUN printf '#!/bin/bash\nexec java -jar /usr/local/bin/trimmomatic.jar "$@"\n' > /usr/local/bin/trimmomatic && \
     chmod +x /usr/local/bin/trimmomatic
 
 # 6. Set the default command
