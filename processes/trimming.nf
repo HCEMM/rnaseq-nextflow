@@ -15,7 +15,7 @@ process TRIMMOMATIC {
     """
     echo "Running Trimmomatic on sample ${sample_id} with reads: ${reads[0]} and ${reads[1]}"
 
-    java -jar /usr/local/bin/trimmomatic.jar PE -threads ${task.cpus} \
+    trimmomatic PE -threads ${task.cpus} \
         ${reads[0]} ${reads[1]} \
         ${sample_id}_1_trimmed.fastq.gz ${sample_id}_1_unpaired.fastq.gz \
         ${sample_id}_2_trimmed.fastq.gz ${sample_id}_2_unpaired.fastq.gz \

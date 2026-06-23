@@ -26,7 +26,10 @@ RUN wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmoma
 # 5. Set the default working directory
 WORKDIR /data
 
+RUN printf '#!/bin/bash\nexec java -jar /usr/local/bin/trimmomatic.jar "$@"\n' > /usr/local/bin/trimmomatic && \
+    chmod +x /usr/local/bin/trimmomatic
+
 # 6. Set the default command
 # Hint: Because it's a Java application, you don't just call its name. 
 # You have to tell Java to run the .jar file!
-CMD ["java", "-jar", "/usr/local/bin/trimmomatic.jar"]
+CMD ["trimmomatic"]
