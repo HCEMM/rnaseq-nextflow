@@ -1,0 +1,49 @@
+nextflow_pipeline {
+
+    name "Test Complete RNA-Seq Pipeline"
+    
+    // Points to your pipeline script
+    script "../main.nf"
+
+    test("Run end-to-end pipeline on minimal mock dataset") {
+
+        when {
+            // Override the default parameters to use tiny testing datasets
+            params {
+                // IMPORTANT: Create tiny mock versions of these files in a tests/data/ folder
+                reads         = "${projectDir}/tests/data/sample_{1,2}.fastq.gz"
+                transcriptome = "${projectDir}/tests/data/index/test_transcripts.fa"
+                metadata      = "${projectDir}/tests/data/quant/samples.csv"
+                tx2gene       = "${projectDir}/tests/data/quant/tx2gene.csv"
+                
+                outdir        = "${projectDir}/tests/results"
+            }
+        }
+
+        then {
+            // 1. Verify the pipeline completed without crashing
+            assert workflow.success
+
+            // 2. Verify tasks actually ran (ensures channels weren't empty)
+            assert workflow.trace.tasks().size() > 0
+            assert workflow.trace.failed().size() == 0
+
+            // 3. Verify the output directory was created
+            def outDir = new File("${projectDir}/tests/results")
+            assert outDir.exists()
+
+            /* * 4. Verify specific expected outputs.
+             * Note: You will need to adjust these paths based on exactly how 
+             * your processes define their `publishDir` directives. 
+             */
+             
+            Check if MultiQC generated its report
+            def multiqcReport = new File(outDir, "multiqc/multiqc_report.html")
+            assert multiqcReport.exists()
+
+            Check if R analysis generated expected output (e.g., a CSV or plot)
+            def rOutput = new File(outDir, "R_plots/final_results.csv")
+            assert rOutput.exists()
+        }
+    }
+}
