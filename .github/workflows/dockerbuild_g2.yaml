@@ -1,14 +1,19 @@
 name: Trimming Group 2
 
 on:
-  push:
+  pull_request:
     branches:
-      - main
       - docker-test
       - trimming-g2
     # ⬇️ THE MAGIC TRICK: This action ONLY triggers if files in this folder change!
     paths:
       - 'containers/trimming_g2/**' 
+
+  push:
+    branches:
+      - docker-test
+    paths:
+      - 'containers/trimming_g2/**'
 
 jobs:
   build-and-push:

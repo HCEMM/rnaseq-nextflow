@@ -1,12 +1,17 @@
 name: Limma Group 4
 
 on:
-  push:
+  pull_request:
     branches:
-      - main
       - docker-test
       - limma-g4
     # ⬇️ THE MAGIC TRICK: This action ONLY triggers if files in this folder change!
+    paths:
+      - 'containers/limma_g4/**'
+      
+  push:
+    branches:
+      - docker-test
     paths:
       - 'containers/limma_g4/**' 
 
