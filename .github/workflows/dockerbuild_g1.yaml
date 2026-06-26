@@ -31,3 +31,4 @@ jobs:
           context: ./containers/fastqc_g1
           push: true
           tags: hcemm/bioinfo-workshop:fastqc
+    
