@@ -6,7 +6,6 @@ env:
 on:
   push:
     branches:
-      - main
       - docker-test
       - fastqc-g1
     paths:
