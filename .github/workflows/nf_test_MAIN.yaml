@@ -4,7 +4,6 @@ name: Nextflow Test RNA-seq Pipeline
 on:
   pull_request:
     branches:
-      - developer
       - main
 
 jobs:
