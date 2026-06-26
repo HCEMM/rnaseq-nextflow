@@ -12,3 +12,10 @@
 .nextflow.log*
 
 .nextflow/
+
+.nf-test/
+
+tests/results/
+
+nf-test
+.nf-test.log

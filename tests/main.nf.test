@@ -1,3 +1,4 @@
+
 nextflow_pipeline {
 
     name "Test Complete RNA-Seq Pipeline"
@@ -11,7 +12,7 @@ nextflow_pipeline {
             // Override the default parameters to use tiny testing datasets
             params {
                 // IMPORTANT: Create tiny mock versions of these files in a tests/data/ folder
-                reads         = "${projectDir}/tests/data/sample_{1,2}.fastq.gz"
+                reads         = "${projectDir}/tests/data/pipeline/test/sample*_{1,2}.fastq.gz"
                 transcriptome = "${projectDir}/tests/data/index/test_transcripts.fa"
                 metadata      = "${projectDir}/tests/data/quant/samples.csv"
                 tx2gene       = "${projectDir}/tests/data/quant/tx2gene.csv"
@@ -32,11 +33,11 @@ nextflow_pipeline {
             def outDir = new File("${projectDir}/tests/results")
             assert outDir.exists()
              
-            Check if MultiQC generated its report
+            // Check if MultiQC generated its report
             def multiqcReport = new File(outDir, "multiqc/multiqc_report.html")
             assert multiqcReport.exists()
 
-            Check if R analysis generated expected output (e.g., a CSV or plot)
+            // Check if R analysis generated expected output (e.g., a CSV or plot)
             def rOutput = new File(outDir, "R_plots/final_results.csv")
             assert rOutput.exists()
         }
