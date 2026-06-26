@@ -63,7 +63,9 @@ logCPM <- v$E
 
 # 5. ANALYSIS: The Limma Pipeline
 fit <- lmFit(v, design)
-fit <- eBayes(fit, trend=TRUE)
+has_enough_samples <- ncol(v) > 5
+fit <- eBayes(fit, trend = has_enough_samples)
+
 
 # 6. MERGE: Get results
 results <- topTable(fit, coef=2, number=Inf)
