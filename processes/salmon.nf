@@ -18,20 +18,20 @@ process SALMON_INDEX {
 
 process SALMON_QUANT {
     tag "Salmon on $sample_id"
-    publishDir "${params.outdir}/salmon", mode: 'copy'
+    ___________ "${params.outdir}/salmon", mode: '________'
     
-    container "hcemm/bioinfo-workshop:salmon"
+    ________ "hcemm/bioinfo-workshop:salmon"
 
     input:
-    tuple val(sample_id), path(trimmed_reads)
-    path index
+    tuple val(_________), path(_________)
+    ________ index
 
     output:
-    path "${sample_id}_quant", emit: quant_dirs
+    path "${sample_id}_quant", emit: __________
 
     script:
     """
-    salmon quant -i ${index} -l A \
+    ________ _______ -i ${index} -l A \
         -1 ${trimmed_reads[0]} \
         -2 ${trimmed_reads[1]} \
         -p ${task.cpus} \

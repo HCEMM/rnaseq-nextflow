@@ -1,14 +1,19 @@
 name: Salmon Group 3
 
 on:
-  push:
+  pull_request:
     branches:
-      - main
       - docker-test
       - salmon-g3
     # ⬇️ THE MAGIC TRICK: This action ONLY triggers if files in this folder change!
     paths:
       - 'containers/salmon_g3/**' 
+  
+  push:
+    branches:
+      - docker-test
+    paths:
+      - 'containers/salmon_g3/**'
 
 jobs:
   build-and-push:
