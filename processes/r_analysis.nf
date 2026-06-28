@@ -1,20 +1,20 @@
 process R_ANALYSIS {
     tag "R Analysis"
-    publishDir "${params.outdir}/R_plots", mode: 'copy'
+    _________ "${params.outdir}/R_plots", mode: '______'
     
     container "hcemm/bioinfo-workshop:limma"
 
     input:
-    path quant_dirs
-    path tx2gene
-    path metadata
+    _____ quant_dirs
+    path ________
+    path ________
 
     output:
-    path "expression_summary.pdf"
-    path "final_results.csv"
+    ______ "expression_summary.pdf"
+    ______ "final_results.csv"
 
     script:
     """
-    Rscript ${projectDir}/scripts/limma_analysis.R --quant_dirs ${quant_dirs.join(',')} --tx2gene ${tx2gene} --metadata ${metadata}
+    ________ ${projectDir}/scripts/limma_analysis.R --quant_dirs ${quant_dirs.join(',')} --tx2gene ${tx2gene} --metadata ${metadata}
     """
 }

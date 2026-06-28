@@ -1,13 +1,13 @@
 # 1. Define the lightweight base image
- FROM alpine:latest
+_____ alpine:latest
 
 # 2. Set the version variable
-ENV TRIMMOMATIC_VERSION=0.39
+_____ TRIMMOMATIC_VERSION=0.39
 
 # 3. Install system dependencies
 # Hint: Trimmomatic is written in Java, so we need the Java Runtime Environment (JRE).
 # We also need tools to download and extract the archive.
-RUN apk add --no-cache \
+_____ apk add --no-cache \
     bash \
     openjdk17-jre \
     wget \
@@ -16,7 +16,7 @@ RUN apk add --no-cache \
 # 4. Download and install Trimmomatic
 # Hint: We are downloading a zip file. You need to extract it, delete the zip file, 
 # and then move the .jar file to /usr/local/bin so the system knows where it is.
-RUN wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-${TRIMMOMATIC_VERSION}.zip && \
+_____ wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-${TRIMMOMATIC_VERSION}.zip && \
     unzip Trimmomatic-${TRIMMOMATIC_VERSION}.zip && \
     rm Trimmomatic-${TRIMMOMATIC_VERSION}.zip && \
     mv Trimmomatic-${TRIMMOMATIC_VERSION}/trimmomatic-${TRIMMOMATIC_VERSION}.jar /usr/local/bin/trimmomatic.jar && \
@@ -24,12 +24,12 @@ RUN wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmoma
     mv Trimmomatic-${TRIMMOMATIC_VERSION}/adapters/* /usr/local/bin/adapters/
 
 # 5. Set the default working directory
-WORKDIR /data
+_____ /data
 
-RUN printf '#!/bin/bash\nexec java -jar /usr/local/bin/trimmomatic.jar "$@"\n' > /usr/local/bin/trimmomatic && \
+_____ printf '#!/bin/bash\nexec java -jar /usr/local/bin/trimmomatic.jar "$@"\n' > /usr/local/bin/trimmomatic && \
     chmod +x /usr/local/bin/trimmomatic
 
 # 6. Set the default command
 # Hint: Because it's a Java application, you don't just call its name. 
 # You have to tell Java to run the .jar file!
-CMD ["trimmomatic"]
+_____ ["trimmomatic"]

@@ -5,7 +5,7 @@ process FASTQC {
     container "hcemm/bioinfo-workshop:fastqc"
 
     input:
-    _______ val(______), path(______)
+    tuple val(______), path(______)
 
     output:
     path "*_fastqc.{____,______}", emit: _______
