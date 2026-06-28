@@ -1,7 +1,7 @@
 name: Trimming Group 2
 
 on:
-  pull_request:
+  pull_request_target:
     branches:
       - docker-test
       - trimming-g2
