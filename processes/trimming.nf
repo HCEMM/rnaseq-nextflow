@@ -1,22 +1,22 @@
 process TRIMMOMATIC {
     tag "Trim $sample_id"
-    __________ "${params.outdir}/trimmed", mode: '________'
+    publishDir "${params.outdir}/trimmed", mode: 'copy'
     
-    __________ "hcemm/bioinfo-workshop:trimming"
+    container "hcemm/bioinfo-workshop:trimming"
 
     input:
-    tuple val(________), path(________)
+    tuple val(sample_id), path(reads)
 
     output:
-    tuple val(sample_id), path("*_trimmed.fastq.gz"), emit: _________
-    _________ "*_trimmomatic.log", emit: log
+    tuple val(sample_id), path("*_trimmed.fastq.gz"), emit: trimmed_reads
+    path "*_trimmomatic.log", emit: log
 
     script:
     """
-    echo "Running Trimmomatic on sample ${_________} with reads: ${reads[0]} and ${reads[1]}"
+    echo "Running Trimmomatic on sample ${sample_id} with reads: ${reads[0]} and ${reads[1]}"
 
-    ____________ PE -threads ${task.cpus} \
-        ${reads[___]} ${reads[____]} \
+    trimmomatic PE -threads ${task.cpus} \
+        ${reads[0]} ${reads[1]} \
         ${sample_id}_1_trimmed.fastq.gz ${sample_id}_1_unpaired.fastq.gz \
         ${sample_id}_2_trimmed.fastq.gz ${sample_id}_2_unpaired.fastq.gz \
         ILLUMINACLIP:/usr/local/bin/adapters/TruSeq3-PE.fa:2:30:10 \
