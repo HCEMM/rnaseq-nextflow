@@ -1,7 +1,7 @@
 name: Limma Group 4
 
 on:
-  pull_request:
+  pull_request_target:
     branches:
       - docker-test
       - limma-g4
