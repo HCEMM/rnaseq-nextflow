@@ -1,0 +1,33 @@
+nextflow_process {
+
+    name "Test DIAMOND process"
+    // Make sure this path correctly points to your process file from THIS test file
+    script "../processes/diamond.nf"
+    process "DIAMOND"
+
+    test("Run DIAMOND on FASTQ files") {
+
+        when {
+            // Mock parameters your process needs
+            params {
+                outdir = "tests/results"
+            }
+            process {
+                """
+                input[0] = tuple("sample", [
+                    file("${projectDir}/tests/data/sample_1.fastq.gz"), 
+                    file("${projectDir}/tests/data/sample_2.fastq.gz")
+                ])
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            
+            def diamondOutput = process.out.blast
+            assert diamondOutput != null
+            assert diamondOutput.size() == 1
+        }
+    }
+}

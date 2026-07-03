@@ -18,7 +18,6 @@ _____ apk add --no-cache \
     fontconfig \
     ttf-dejavu
 
-
 # 4. Install MultiQC
 # Hint: Use the python package manager to install 'multiqc'
 _____ apk add --no-cache \

@@ -1,0 +1,37 @@
+name: DIAMOND Group 5
+
+on:
+  pull_request_target:
+    branches:
+      - docker-test
+      - diamond-g5
+    # ⬇️ THE MAGIC TRICK: This action ONLY triggers if files in this folder change!
+    paths:
+      - 'containers/diamond_g5/**'
+      
+  push:
+    branches:
+      - docker-test
+    paths:
+      - 'containers/diamond_g5/**' 
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          # ⬇️ Tells Docker to look inside Group 5's folder for the Dockerfile
+          context: ./containers/diamond_g5
+          push: true
+          tags: hcemm/bioinfo-workshop:diamond #one repo with different tags (or seperate repos...)
