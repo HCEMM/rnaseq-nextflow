@@ -46,3 +46,4 @@ WORKDIR /data
 # 6. Set the default command that runs when the container starts.
 # We want it to run the fastqc help menu.
 CMD ["fastqc", "--help"]
+
