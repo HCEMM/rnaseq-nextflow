@@ -1,35 +1,46 @@
-# 1. Define the lightweight base image
-_____ alpine:latest
+# 1. Define the base image. We want a lightweight Linux distribution!
+# Hint: We are looking for the latest version of Alpine.
+FROM alpine:latest
 
-# 2. Set the version variable
-_____ TRIMMOMATIC_VERSION=0.39
+# 2. Set an environment variable for the FastQC version so it's easy to update later.
+# Call the variable FASTQC_VERSION and set it to 0.12.1
+ENV FASTQC_VERSION=0.12.1
 
-# 3. Install system dependencies
-# Hint: Trimmomatic is written in Java, so we need the Java Runtime Environment (JRE).
-# We also need tools to download and extract the archive.
-_____ apk add --no-cache \
+# 3. Install the required dependencies.
+# Hint: In Alpine Linux, the package manager is 'apk', and you want to 'add' packages 
+# without caching them to save space.
+RUN apk add --no-cache \
     bash \
     openjdk17-jre \
+    perl \
     wget \
-    unzip
+    unzip \
+    fontconfig \
+    ttf-dejavu
 
-# 4. Download and install Trimmomatic
-# Hint: We are downloading a zip file. You need to extract it, delete the zip file, 
-# and then move the .jar file to /usr/local/bin so the system knows where it is.
-_____ wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-${TRIMMOMATIC_VERSION}.zip && \
-    unzip Trimmomatic-${TRIMMOMATIC_VERSION}.zip && \
-    rm Trimmomatic-${TRIMMOMATIC_VERSION}.zip && \
-    mv Trimmomatic-${TRIMMOMATIC_VERSION}/trimmomatic-${TRIMMOMATIC_VERSION}.jar /usr/local/bin/trimmomatic.jar && \
-    mkdir -p /usr/local/bin/adapters && \
-    mv Trimmomatic-${TRIMMOMATIC_VERSION}/adapters/* /usr/local/bin/adapters/
+# 4. Install MultiQC
+# Hint: Use the python package manager to install 'multiqc'
+RUN apk add --no-cache \
+    python3 \
+    py3-pip \
+    build-base \
+    python3-dev \
+    linux-headers
 
-# 5. Set the default working directory
-_____ /data
+RUN pip install --break-system-packages multiqc
 
-_____ printf '#!/bin/bash\nexec java -jar /usr/local/bin/trimmomatic.jar "$@"\n' > /usr/local/bin/trimmomatic && \
-    chmod +x /usr/local/bin/trimmomatic
+# 4. Download, extract, and configure FastQC.
+# Fill in the missing Linux commands to make this chain work!
+RUN wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v${FASTQC_VERSION}.zip && \
+    unzip fastqc_v${FASTQC_VERSION}.zip && \
+    rm fastqc_v${FASTQC_VERSION}.zip && \
+    chmod 755 /FastQC/fastqc && \
+    ln -s /FastQC/fastqc /usr/local/bin/fastqc
 
-# 6. Set the default command
-# Hint: Because it's a Java application, you don't just call its name. 
-# You have to tell Java to run the .jar file!
-_____ ["trimmomatic"]
+# 5. Set the default working directory where users will mount their data.
+# Let's use a folder called /data
+WORKDIR /data
+
+# 6. Set the default command that runs when the container starts.
+# We want it to run the fastqc help menu.
+CMD ["fastqc", "--help"]
