@@ -33,4 +33,4 @@ RUN printf '#!/bin/bash\nexec java -jar /usr/local/bin/trimmomatic.jar "$@"\n' >
 # 6. Set the default command
 # Hint: Because it's a Java application, you don't just call its name. 
 # You have to tell Java to run the .jar file!
-ENTRYPOINT ["trimmomatic"]
+ENTRYPOINT ["trimmomatic"] 
