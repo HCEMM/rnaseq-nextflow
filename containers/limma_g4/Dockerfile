@@ -1,10 +1,11 @@
 # 1. Define the base image. 
 # Hint: Instead of raw Ubuntu, we are using the official "Rocker" project base image, 
 # which comes with a specific version of R pre-installed so our analysis is reproducible!
-_____ rocker/r-ver:4.3.2
+FROM rocker/r-ver:4.3.2
 
 # 2. Prevent Ubuntu from asking interactive questions during installation
-_____ DEBIAN_FRONTEND=noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
+
 
 # 3. Install required underlying Linux system libraries
 # Hint: Bioconductor packages do heavy math and networking. They will crash during 
