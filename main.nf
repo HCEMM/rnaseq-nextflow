@@ -3,7 +3,7 @@
 nextflow.enable.dsl=2
 
 // --- PARAMETERS ---
-params.reads         = "/scratch/jsequeira/sznistvan/data/rnaseq/bioinformatics_hpc/workshop_ready/*_workshop_{1,2}.fastq.gz"
+params.reads         = "/common/2nd_workshop/data/*_workshop_{1,2}.fastq.gz"
 // --reads /scratch/jsequeira/sznistvan/data/rnaseq/bioinformatics_hpc/workshop_ready/*_workshop_{1,2}.fastq.gz
 params.transcriptome = "$projectDir/data/Homo_sapiens.GRCh38.cdna.all.fa"
 //params.adapters      = "$projectDir/data/adapters.fa"       // Added: Required for trimming
