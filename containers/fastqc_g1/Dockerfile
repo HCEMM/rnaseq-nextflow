@@ -22,8 +22,8 @@ RUN apk add --no-cache \
 # 4. Install MultiQC
 # Hint: Use the python package manager to install 'multiqc'
 RUN apk add --no-cache \
-	python3 \
-	py3-pip \
+    python3 \
+    py3-pip \
     build-base \
     python3-dev \
     linux-headers
@@ -33,7 +33,7 @@ RUN pip install --break-system-packages multiqc
 # 4. Download, extract, and configure FastQC.
 # Fill in the missing Linux commands to make this chain work!
 RUN wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v${FASTQC_VERSION}.zip && \
-     unzip fastqc_v${FASTQC_VERSION}.zip && \
+    unzip fastqc_v${FASTQC_VERSION}.zip && \
     rm fastqc_v${FASTQC_VERSION}.zip && \
     chmod 755 /FastQC/fastqc && \
     ln -s /FastQC/fastqc /usr/local/bin/fastqc
@@ -42,8 +42,6 @@ RUN wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v${FAS
 # Let's use a folder called /data
 WORKDIR /data
 
-
 # 6. Set the default command that runs when the container starts.
 # We want it to run the fastqc help menu.
 CMD ["fastqc", "--help"]
-
