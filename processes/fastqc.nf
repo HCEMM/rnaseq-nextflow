@@ -4,6 +4,7 @@ process FASTQC {
     
     container "hcemm/bioinfo-workshop:fastqc"
 
+
     input:
     tuple val(sample_id), path(reads)
 
