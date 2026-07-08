@@ -9,6 +9,12 @@ on:
     paths:
       - 'processes/salmon.nf'
       - 'tests/salmon.nf.test'
+  pull_request:
+    branches:
+      - developer
+    paths:
+      - 'processes/salmon.nf'
+      - 'tests/salmon.nf.test'
 
 jobs:
   build:

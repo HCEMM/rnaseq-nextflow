@@ -9,6 +9,12 @@ on:
     paths:
       - 'processes/r_analysis.nf'
       - 'tests/limma.nf.test'
+  pull_request:
+    branches:
+      - developer
+    paths:
+      - 'processes/r_analysis.nf'
+      - 'tests/limma.nf.test'
 
 jobs:
   build:

@@ -9,6 +9,12 @@ on:
     paths:
       - 'processes/trimming.nf'
       - 'tests/trimming.nf.test'
+  pull_request:
+    branches:
+      - developer
+    paths:
+      - 'processes/trimming.nf'
+      - 'tests/trimming.nf.test'
 
 jobs:
   build:
