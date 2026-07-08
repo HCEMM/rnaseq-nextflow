@@ -3,7 +3,7 @@ process R_ANALYSIS {
     publishDir "${params.outdir}/R_plots", mode: 'copy'
     
     container "hcemm/bioinfo-workshop:limma"
-    
+
     input:
     path quant_dirs
     path tx2gene
