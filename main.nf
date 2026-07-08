@@ -3,7 +3,7 @@
 nextflow.enable.dsl=2
 
 // --- PARAMETERS ---
-params.reads         = "/common/2nd_workshop/data/*_workshop_{1,2}.fastq.gz"
+params.reads         = "$projectDir/data/*_workshop_{1,2}.fastq.gz"
 // --reads /scratch/jsequeira/sznistvan/data/rnaseq/bioinformatics_hpc/workshop_ready/*_workshop_{1,2}.fastq.gz
 params.transcriptome = "$projectDir/data/Homo_sapiens.GRCh38.cdna.all.fa"
 //params.adapters      = "$projectDir/data/adapters.fa"       // Added: Required for trimming
@@ -24,7 +24,7 @@ include { R_ANALYSIS }   from './processes/r_analysis.nf'
 // --- WORKFLOW ---
 workflow {
     // 1. Create channels from input data
-    read_pairs_ch    = Channel.fromFilePairs(params.reads, checkIfExists: true).view { "Found sample: ${it[0]}" }   
+    read_pairs_ch    = Channel.fromFilePairs(params.reads, checkIfExists: true).view { "Found sample: ${it[0]}" }
     transcriptome_ch = file(params.transcriptome, checkIfExists: true)
     tx2gene_ch       = file(params.tx2gene, checkIfExists: true)
     metadata_ch      = file(params.metadata, checkIfExists: true)
