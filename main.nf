@@ -39,11 +39,12 @@ workflow {
 
     // 3. Transcriptome Indexing & Quantification
     SALMON_INDEX(transcriptome_ch)
-    
+
     // Pass the trimmed reads and the generated index into Salmon Quant
     SALMON_QUANT(TRIMMOMATIC.out.trimmed_reads, SALMON_INDEX.out.index)
-    
-    
+
+    // 3b. Convert trimmed reads to FASTA
+
     // 4. Summarize all Quality Control logs
     // We mix the outputs from FastQC, Trimmomatic, and Salmon into one channel for MultiQC
     MULTIQC(
