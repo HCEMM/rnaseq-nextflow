@@ -18,6 +18,7 @@ include { SALMON_INDEX } from './processes/salmon.nf'       // Added: Salmon Ind
 include { SALMON_QUANT } from './processes/salmon.nf'
 include { MULTIQC }      from './processes/multiqc.nf'      // Added: MultiQC!
 include { R_ANALYSIS }   from './processes/r_analysis.nf'
+include { SEQKIT_FQ2FA } from './processes/seqkit.nf'
 
 //ml apptainer!
 
@@ -38,8 +39,10 @@ workflow {
     
     // Pass the trimmed reads and the generated index into Salmon Quant
     SALMON_QUANT(TRIMMOMATIC.out.trimmed_reads, SALMON_INDEX.out.index)
-    
-    
+
+    // 3b. Convert trimmed reads to FASTA
+    SEQKIT_FQ2FA(TRIMMOMATIC.out.trimmed_reads)
+
     // 4. Summarize all Quality Control logs
     // We mix the outputs from FastQC, Trimmomatic, and Salmon into one channel for MultiQC
     MULTIQC(
