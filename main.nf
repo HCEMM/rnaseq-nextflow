@@ -14,6 +14,7 @@ params.outdir        = "$projectDir/results"
 // --- MODULE IMPORTS ---
 include { FASTQC }       from './processes/fastqc.nf'
 include { TRIMMOMATIC }  from './processes/trimming.nf'
+include { SEQKIT_FQ2FA } from './processes/seqkit.nf'
 include { SALMON_INDEX } from './processes/salmon.nf'       // Added: Salmon Indexing step
 include { SALMON_QUANT } from './processes/salmon.nf'
 include { MULTIQC }      from './processes/multiqc.nf'      // Added: MultiQC!
@@ -32,6 +33,9 @@ workflow {
     // 2. Quality Control & Trimming
     FASTQC(read_pairs_ch)
     TRIMMOMATIC(read_pairs_ch)
+
+    // Convert trimmed FASTQ files to FASTA with SeqKit
+    SEQKIT_FQ2FA(TRIMMOMATIC.out.trimmed_reads)
 
     // 3. Transcriptome Indexing & Quantification
     SALMON_INDEX(transcriptome_ch)
