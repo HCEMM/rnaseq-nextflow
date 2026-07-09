@@ -2,8 +2,6 @@ process SALMON_INDEX {
     tag "Salmon Indexing"
     publishDir "${params.outdir}/salmon_index", mode: 'copy'
 
-    container "hcemm/bioinfo-workshop:salmon"
-
     input:
     path transcriptome
 
@@ -19,8 +17,6 @@ process SALMON_INDEX {
 process SALMON_QUANT {
     tag "Salmon on $sample_id"
     publishDir "${params.outdir}/salmon", mode: 'copy'
-
-    container "hcemm/bioinfo-workshop:salmon"
 
     input:
     tuple val(sample_id), path(trimmed_reads)

@@ -2,8 +2,6 @@ process R_ANALYSIS {
     tag "R Analysis"
     publishDir "${params.outdir}/R_plots", mode: 'copy'
     
-    container "hcemm/bioinfo-workshop:limma"
-
     input:
     path quant_dirs
     path tx2gene

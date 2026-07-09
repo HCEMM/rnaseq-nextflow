@@ -2,8 +2,6 @@ process TRIMMOMATIC {
     tag "Trim $sample_id"
     publishDir "${params.outdir}/trimmed", mode: 'copy'
 
-    container "hcemm/bioinfo-workshop:trimming"
-
     input:
     tuple val(sample_id), path(reads)
 
