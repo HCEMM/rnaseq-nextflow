@@ -2,8 +2,6 @@ process MULTIQC {
     tag "MultiQC"
     publishDir "${params.outdir}/multiqc", mode: 'copy'
     
-    container "hcemm/bioinfo-workshop:fastqc"
-
     input:
     path qc_results
 

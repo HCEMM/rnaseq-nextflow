@@ -1,17 +1,15 @@
 process FASTQC {
     tag "FastQC on $sample_id"
-    _________ "${params.outdir}/qc", mode: '______'
-    
-    container "hcemm/bioinfo-workshop:fastqc"
+    publishDir "${params.outdir}/qc", mode: 'copy'
 
     input:
-    tuple val(______), path(______)
+    tuple val(sample_id), path(reads)
 
     output:
-    path "*_fastqc.{____,______}", emit: _______
+    path "*_fastqc.{html,zip}", emit: qc_results
 
     script:
     """
-    fastqc -t ${_______} ${reads[___]} ${reads[____]}
+    fastqc -t ${task.cpus} ${reads[0]} ${reads[1]}
     """
 }

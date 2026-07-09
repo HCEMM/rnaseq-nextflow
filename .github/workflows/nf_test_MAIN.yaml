@@ -2,6 +2,10 @@ name: Nextflow Test RNA-seq Pipeline
 
 # Trigger on Pull Requests targeting developer OR main
 on:
+  push:
+    branches:
+      - main
+      - developer
   pull_request:
     branches:
       - main

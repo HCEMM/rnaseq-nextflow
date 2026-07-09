@@ -9,6 +9,12 @@ on:
     paths:
       - 'processes/fastqc.nf'
       - 'tests/fastqc.nf.test'
+  pull_request:
+    branches:
+      - developer
+    paths:
+      - 'processes/fastqc.nf'
+      - 'tests/fastqc.nf.test'
 
 jobs:
   build:
